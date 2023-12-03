@@ -22,6 +22,7 @@ tr:nth-child(odd) {
 <body>
 
 <h2><%= @city.name %> - historic logs</h2>
+<h3><%= link_to "average monthly data", city_average_monthly_aqi_path(@city) %></h3>
 
 <table>
   <% if @city.air_quality_logs.present? %>

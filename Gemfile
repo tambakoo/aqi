@@ -46,6 +46,7 @@ gem "bootsnap", require: false
 
 gem 'httparty'
 gem 'sidekiq'
+gem 'whenever', require: false
 
 
 group :development, :test do
