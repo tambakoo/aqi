@@ -14,7 +14,6 @@ class FetchHistoricAqiService < BaseService
   end
 
   def call
-    debugger
     api_host = "http://api.openweathermap.org/data/2.5/air_pollution/history?"
     city_data = "lat=#{city.latitude}&lon=#{city.longitude}&start=#{start_time}&end=#{end_time}&appid=#{open_weather_api_key}"
     begin
