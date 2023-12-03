@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2><%= @city.name %> - historic logs</h2>
+
+<table>
+  <% if @city.air_quality_logs.present? %>
+    <tr>
+      <td>Date</td>
+      <td>AQI</td>
+      <td>Concentrations</td>
+    </tr>
+    <% @city.air_quality_logs.each do |aqi_log| %>
+      <tr>
+        <td><%= aqi_log.recorded_on.strftime("%d-%b-%y, %H:%M %Z")%> </td>
+        <td><%= aqi_log.index %></td>
+        <td><%= aqi_log.pollutants_data %></td>
+      </tr>
+    <% end %>
+  <% else %>
+    No data
+  <% end %>
+
+</table>
+
+</body>
+</html>

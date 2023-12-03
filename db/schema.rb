@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_01_172235) do
     t.bigint "city_id", null: false
     t.integer "index", null: false
     t.jsonb "concentrations", default: {}
+    t.datetime "recorded_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["city_id"], name: "index_air_quality_logs_on_city_id"
@@ -25,8 +26,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_01_172235) do
 
   create_table "cities", force: :cascade do |t|
     t.string "name", null: false
-    t.decimal "latitude", null: false
-    t.decimal "longitude", null: false
+    t.string "country_code", null: false
+    t.decimal "latitude"
+    t.decimal "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

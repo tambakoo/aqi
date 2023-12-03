@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>Cities</h2>
+
+<table>
+  <tr>
+    <td>Name</td>
+    <td>Co-ordinates</td>
+    <td>Latest AQI</td>
+    <td>Concentrations</td>
+    <td>Latest data fetched on</td>
+    <td>Historic average AQI</td>
+  </tr>
+  <% @cities.each do |city| %>
+  <tr>
+    <td><%= link_to city.name, city_path(city) %></td>
+    <td><%= city.coordinates %></td>
+    <% if city.latest_aqi.present? %>
+      <td><%= city.latest_aqi.index %></td>
+      <td><%= city.latest_aqi.pollutants_data%></td>
+      <td><%= city.latest_aqi.recorded_on.strftime("%d-%b-%y, %H:%M %Z")%></td>
+      <td><%= city.average_aqi_index%></td>
+    <% else %>
+      <td>No data</td>
+      <td>No data</td>
+      <td>No data</td>
+      <td>No data</td>
+    <% end %>
+  </tr>
+  <% end %>
+
+</table>
+
+</body>
+</html>

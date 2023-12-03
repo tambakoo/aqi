@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2><%= link_to @city.name, city_path(@city) %> - average monthly AQI</h2>
+
+<table>
+  <% if @city.air_quality_logs.present? %>
+    <tr>
+      <td>Month</td>
+      <td>Average AQI</td>
+    </tr>
+    <% @average_aqi_hash.each do |monthly_average| %>
+      <% month = monthly_average[0].split('/').first.to_i %>
+      <% year = monthly_average[0].split('/').last %>
+      <tr>
+        <td><%= "#{Date::MONTHNAMES[month]} - #{year}"%> </td>
+        <td><%= monthly_average[1] %></td>
+      </tr>
+    <% end %>
+  <% else %>
+    No data
+  <% end %>
+
+</table>
+
+</body>
+</html>
