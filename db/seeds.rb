@@ -19,4 +19,6 @@ puts "Fetching location details from geocoding API asynchronously"
 City.all.each do |city|
   FetchAndUpdateCityDataJob.perform_async(city.id)
 end
+puts "Fetching annual historic AQI data for all cities"
+Rake::Task['update_data:annual_aqi'].invoke
 puts "Seeding complete"

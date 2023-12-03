@@ -25,7 +25,7 @@ class City < ApplicationRecord
       logs.each do |monthly_log|
         monthly_average = (monthly_log[1].map{|x| x.index}.sum).to_f/monthly_log[1].count
         year = monthly_log[1].sample.recorded_on.year
-        average_hash["#{monthly_log[0]}/#{year}"] = monthly_average
+        average_hash["#{monthly_log[0]}/#{year}"] = monthly_average.round(2)
       end
       average_hash
     else
