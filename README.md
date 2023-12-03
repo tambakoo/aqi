@@ -12,7 +12,7 @@ Implementation notes
 1. **Data models**  
 App has 2 data models - City (stores location data) and AirQualityLog (stores air quality data from open weather API)
 2. **Open weather APIs**  
-External API integration follow a service-object design pattern. Current data, historical data and location details are all seperate service, can be found under `app/services`
+External API integration follow a service-object design pattern. Current data, historical data and location details are all seperate services, can be found under `app/services`
 3. Initial data population is taken care in the seed file. It will create location records, fetch their co-ordinates from external API, fetch historic AQI data from external API all during setup.
 4. The importer is implemented in the `FetchAqiService` and is called through the `FetchAndUpdateAqiDataJob` which is asynchronously managed by sidekiq. The crontab is managed by `schedule.rb` to regulate the frequency of data being pulled.
 5. The app's UI has 3 screens -
