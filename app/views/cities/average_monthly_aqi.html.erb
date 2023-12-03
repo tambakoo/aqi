@@ -22,6 +22,8 @@ tr:nth-child(odd) {
 <body>
 
 <h2><%= link_to @city.name, city_path(@city) %> - average monthly AQI</h2>
+<h3><%= link_to "home", root_path %></h3>
+
 
 <table>
   <% if @city.air_quality_logs.present? %>
