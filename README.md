@@ -20,6 +20,7 @@ External API integration follow a service-object design pattern. Current data, h
 - A location show page that lists historic pollution data for a location.
 - A monthly average page for a location which shows the monthly average AQI.
 All the queries are covered in these pages.
+6. Tests are implemented in Rspec.
 ---
 Setup
 1. Clone the repository and bundle.
