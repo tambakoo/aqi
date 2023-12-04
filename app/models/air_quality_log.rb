@@ -7,6 +7,6 @@ class AirQualityLog < ApplicationRecord
       comma = ind < concentrations.count - 1 ? ",": ""
       dat = "#{dat}#{gas[0].capitalize}: #{gas[1]}#{comma} "
     end
-    dat
+    dat.strip
   end
 end
