@@ -1,4 +1,4 @@
-name: Deploy to EBS
+name: Deploy to AWS-EBS
 
 on:
   push:
