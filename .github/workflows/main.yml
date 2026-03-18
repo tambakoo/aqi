@@ -1,0 +1,27 @@
+name: Deploy to EBS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Zip application
+        run: zip -r app.zip . -x "*.git*"
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: aqi-app
+          environment_name: aqi-app-staging
+          version_label: v-${{ github.sha }}
+          region: eu-north-1
+          deployment_package: app.zip
