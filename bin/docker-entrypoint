@@ -1,14 +1,48 @@
 #!/bin/bash -e
 
-# Enable jemalloc for reduced memory usage and latency.
+# Enable jemalloc
 if [ -z "${LD_PRELOAD+x}" ]; then
     LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
     export LD_PRELOAD
 fi
 
-# If running the rails server then create or migrate existing database
+# ---- START POSTGRES ----
+
+PGDATA=/tmp/postgres-data
+PG_BIN=$(dirname $(find /usr -name pg_ctl | head -n 1))
+
+export PATH="$PG_BIN:$PATH"
+
+mkdir -p "$PGDATA"
+
+# Initialize DB if first run
+if [ ! -s "$PGDATA/PG_VERSION" ]; then
+  echo "Initializing Postgres..."
+  initdb -D "$PGDATA"
+
+  pg_ctl -D "$PGDATA" -o "-c listen_addresses='127.0.0.1'" -w start
+
+  psql -U postgres -c "ALTER USER postgres WITH PASSWORD 'postgres';" || true
+  createdb -U postgres aqi_production || true
+
+  pg_ctl -D "$PGDATA" -m fast -w stop
+fi
+
+# Start Postgres
+echo "Starting Postgres..."
+pg_ctl -D "$PGDATA" -o "-c listen_addresses='127.0.0.1'" -w start
+
+# ---- WAIT FOR POSTGRES ----
+until pg_isready -h 127.0.0.1 -p 5432; do
+  echo "Waiting for Postgres..."
+  sleep 1
+done
+
+# ---- RAILS SETUP ----
 if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
+  echo "Preparing DB..."
   ./bin/rails db:prepare
 fi
 
+# ---- START APP ----
 exec "${@}"

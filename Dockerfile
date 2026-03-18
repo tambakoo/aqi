@@ -16,14 +16,18 @@ WORKDIR /rails
 # Install base packages
 # Replace libpq-dev with sqlite3 if using SQLite, or libmysqlclient-dev if using MySQL
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips libpq-dev && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips libpq-dev \
+    postgresql \ postgresql-contrib && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="development" \
+    ENV POSTGRES_USER=postgres \
+    POSTGRES_PASSWORD=postgres \
+    POSTGRES_DB=aqi_production
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -86,5 +90,5 @@ USER 1000:1000
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+EXPOSE 5000
+CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "5000"]
