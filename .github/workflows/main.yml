@@ -10,10 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Zip application
-        run: zip -r app.zip . -x "*.git*"
+        run: zip -r app.zip . -x "*.git*" "tmp/*" "log/*" ".DS_Store"
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v22
