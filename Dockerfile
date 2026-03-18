@@ -8,8 +8,7 @@
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
-ARG RUBY_VERSION=2.7.6
-FROM ruby:$RUBY_VERSION-slim AS base
+FROM ruby:2.7.6-slim AS base
 
 # Rails app lives here
 WORKDIR /rails
