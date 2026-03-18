@@ -28,7 +28,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: aqi-app
           environment_name: aqi-app-staging
-          version_label: v-${{ github.sha }}
+          version_label: v-${{ github.run_id }}-${{ github.sha }}
           region: eu-north-1
           deployment_package: app.zip
           use_existing_version_if_available: true
