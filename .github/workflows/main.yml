@@ -13,6 +13,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check secrets presence
+        run: |
+          test -n "${{ secrets.AWS_ACCESS_KEY_ID }}" && echo "ACCESS_KEY_PRESENT" || echo "ACCESS_KEY_MISSING"
+          test -n "${{ secrets.AWS_SECRET_ACCESS_KEY }}" && echo "SECRET_KEY_PRESENT" || echo "SECRET_KEY_MISSING"
+
       - name: Zip application
         run: zip -r app.zip . -x "*.git*" "tmp/*" "log/*" ".DS_Store"
 
