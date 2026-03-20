@@ -1,15 +1,21 @@
+# Represents a city tracked for air quality monitoring.
+# Each city has geographic coordinates and is associated with historical AQI logs.
 class City < ApplicationRecord
 
+  # Air quality logs ordered most recent first
   has_many  :air_quality_logs, -> { order(recorded_on: :desc) }
 
+  # Returns the city's latitude and longitude rounded to 2 decimal places
   def coordinates
     "#{latitude.round(2)}, #{longitude.round(2)}"
   end
 
+  # Returns the most recent air quality log entry
   def latest_aqi
     air_quality_logs.first
   end
 
+  # Returns the overall average AQI index across all logs, or "No data" if none exist
   def average_aqi_index
     if air_quality_logs.present?
       air_quality_logs.sum(:index)/air_quality_logs.count
@@ -18,7 +24,9 @@ class City < ApplicationRecord
     end
   end
 
-  def average_monthly_aqi #returns a hash of format key = month/year, value = aqi
+  # Returns a hash of average AQI per month, format: { "month/year" => avg_aqi }
+  # Groups logs by month, computes the mean AQI index, and keys by "month/year"
+  def average_monthly_aqi
     if air_quality_logs.present?
       logs = air_quality_logs.group_by { |m| m.recorded_on.month }
       average_hash = {}
@@ -32,5 +40,5 @@ class City < ApplicationRecord
       "No data"
     end
   end
-  
+
 end
